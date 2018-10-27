@@ -2,11 +2,12 @@ package com.expensemanager.fileupload.models;
 
 import java.util.UUID;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 public class FileDetails {
 	@Id
-	private UUID reportID;
+	private ObjectId reportID;
 	private String name;
 	private String startDate;
 	private String endDate;
@@ -17,7 +18,7 @@ public class FileDetails {
 
 	}
 
-	public FileDetails(UUID reportID, String name, String startDate, String endDate, String uploadTime, String status) {
+	public FileDetails(ObjectId reportID, String name, String startDate, String endDate, String uploadTime, String status) {
 		super();
 		this.reportID = reportID;
 		this.name = name;
@@ -27,11 +28,13 @@ public class FileDetails {
 		this.status = status;
 	}
 
-	public UUID getReportID() {
+	
+
+	public ObjectId getReportID() {
 		return reportID;
 	}
 
-	public void setReportID(UUID reportID) {
+	public void setReportID(ObjectId reportID) {
 		this.reportID = reportID;
 	}
 

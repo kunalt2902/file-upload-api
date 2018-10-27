@@ -10,6 +10,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.bson.types.ObjectId;
+
 import com.expensemanager.fileupload.constants.Constants;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -19,10 +21,13 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 public class Main {
 
 	public static void main(String[] args) {
+		ObjectId test = ObjectId.get();
+		System.out.println(test);
+		System.out.println(test.toString());
 		// TODO Auto-generated method stub
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");  
-		   LocalDateTime now = LocalDateTime.now();  
-		   System.out.println(dtf.format(now));
+//		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");  
+//		   LocalDateTime now = LocalDateTime.now();  
+//		   System.out.println(dtf.format(now));
 		
 //		try {
 //			new SimpleDateFormat(Constants.DATE_FORMAT).parse("12/12/2018");

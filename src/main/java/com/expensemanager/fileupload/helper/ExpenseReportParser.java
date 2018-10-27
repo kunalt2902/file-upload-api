@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +25,7 @@ public class ExpenseReportParser {
 	
 	static Logger log = LoggerFactory.getLogger(ExpenseReportParser.class);
 	
-	public static List<ExpenseReport> getExpenseReportFromFile(MultipartFile file, UUID reportID) throws FileUploadException{
+	public static List<ExpenseReport> getExpenseReportFromFile(MultipartFile file, String reportID) throws FileUploadException{
 		CsvSchema schema = CsvSchema.builder().addColumn(Constants.TRANSACTION_DATE).
 				addColumn(Constants.DESCRIPTION).
 				addColumn(Constants.AMOUNT)
@@ -40,7 +41,7 @@ public class ExpenseReportParser {
 				ExpenseReport record = mi.next();
 				if(count > 1) {					
 					Validator.validateRecord(record,count);
-					record.setRecordID(UUID.randomUUID());
+					record.setRecordID(ObjectId.get());
 					record.setReportID(reportID);
 					report.add(record);
 				}

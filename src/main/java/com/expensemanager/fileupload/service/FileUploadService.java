@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class FileUploadService {
 	private FileRepository fileRepository;
 	@Autowired
 	private UserRepository userRepository;
-	public void uploadExpenseDetails(MultipartFile file, UUID reportID) throws FileUploadException {
+	public void uploadExpenseDetails(MultipartFile file, String reportID) throws FileUploadException {
 		
 		List<ExpenseReport> report = ExpenseReportParser.getExpenseReportFromFile(file,reportID);
 		if(report != null) {
@@ -42,7 +43,7 @@ public class FileUploadService {
 		
 	}
 	
-	public void uploadFileDetails(String name, UUID reportID, String startDate, String endDate) {
+	public void uploadFileDetails(String name, ObjectId reportID, String startDate, String endDate) {
 		
 		FileDetails file = new FileDetails(reportID, name, startDate, endDate, 
 				DateTimeFormatter.ofPattern(Constants.UPLOAD_DATE_TIME_FORMAT).format(LocalDateTime.now()), 
@@ -53,7 +54,7 @@ public class FileUploadService {
 	}
 	
 	public void uploadUser(User user) {
-		userRepository.save(user);
+		userRepository.insert(user);
 	}
 
 }

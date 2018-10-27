@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,8 +52,8 @@ public class FileUploadController {
 			@RequestParam("endDate") String endDate) throws FileUploadException {
 		
 		
-		UUID reportID = UUID.randomUUID();
-		service.uploadExpenseDetails(file,reportID);
+		ObjectId reportID = ObjectId.get();
+		service.uploadExpenseDetails(file,reportID.toString());
 		service.uploadFileDetails(file.getOriginalFilename(),reportID,startDate,endDate);
 		
 		return ResponseEntity.ok("Upload Successful");
