@@ -1,19 +1,10 @@
 package com.expensemanager.fileupload.controller;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,13 +16,6 @@ import com.expensemanager.fileupload.helper.ExpenseReportParser;
 import com.expensemanager.fileupload.models.ExpenseReport;
 import com.expensemanager.fileupload.models.User;
 import com.expensemanager.fileupload.service.FileUploadService;
-import com.fasterxml.jackson.databind.MappingIterator;
-import com.fasterxml.jackson.databind.ObjectReader;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 
 
@@ -51,12 +35,18 @@ public class FileUploadController {
 			@RequestParam("startDate") String startDate,
 			@RequestParam("endDate") String endDate) throws FileUploadException {
 		
+		List<ExpenseReport> report = ExpenseReportParser.getExpenseReportFromFile(file,file.getOriginalFilename());
+		if(report != null) {
+			service.uploadFileDetails(file.getOriginalFilename(),startDate,endDate);
+			service.uploadExpenseDetails(report);
+			return ResponseEntity.ok("Upload Successful");
+		}
 		
-		ObjectId reportID = ObjectId.get();
-		service.uploadExpenseDetails(file,reportID.toString());
-		service.uploadFileDetails(file.getOriginalFilename(),reportID,startDate,endDate);
+		return ResponseEntity.ok("Error");
 		
-		return ResponseEntity.ok("Upload Successful");
+		
+		
+		
 		
 	}
 	
